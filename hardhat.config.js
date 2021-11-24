@@ -1,4 +1,7 @@
 require("@nomiclabs/hardhat-waffle");
+require('@openzeppelin/hardhat-upgrades');
+
+require('hardhat-contract-sizer');
 require("dotenv").config()
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -38,5 +41,11 @@ module.exports = {
       timeout: 300000,
       gasPrice: 1000000000
     },
-  }  
+  },
+  contractSizer: {
+    alphaSort: true,
+    disambiguatePaths: false,
+    runOnCompile: true,
+    strict: true,
+  }
 };

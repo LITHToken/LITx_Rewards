@@ -2,15 +2,11 @@
 
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/utils/Context.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 
-contract LITxRewards is Context, Ownable {
-    using SafeERC20 for IERC20;
-    
+contract LITxRewards is OwnableUpgradeable {
     /**
      * @dev Emitted when owner sets reward distribution.
      *
@@ -26,8 +22,29 @@ contract LITxRewards is Context, Ownable {
     uint256[] public _rewardDistribution;
     string[] public _rewardUrls; 
 
-    constructor (address token) {
-        _token = IERC20(token);
+    /**
+     * @dev See {__LITxRewards_init}.
+     */
+    function initialize(
+        address token_
+        ) public initializer {
+        __LITxRewards_init(token_);
+    }
+
+    /**
+     * @dev See {OwnableUpgradeable}.
+     */
+    function __LITxRewards_init(
+        address token_
+        ) internal initializer {
+        __Context_init_unchained();
+        __LITxRewards_init_unchained(token_);
+    }
+
+    function __LITxRewards_init_unchained(
+        address token_
+        ) internal initializer {
+        _token = IERC20(token_);
     }
 
     function setRewards(uint256[] memory rewardDistribution, string[] memory rewardUrls) external onlyOwner() {
